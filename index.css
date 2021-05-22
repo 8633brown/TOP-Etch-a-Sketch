@@ -12,15 +12,20 @@ html {
 
 body {
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	min-height: 100%;
 }
 
+.controls {
+	margin: 20px;
+}
+
 #canvas {
 	border: 1px solid black;
-	height: 256px;
-	width: 256px;
+	height: 512px;
+	width: 512px;
 	display: grid;
 	grid-template-columns: repeat(16, 1fr);
 	grid-template-rows: repeat(16, 1fr);
