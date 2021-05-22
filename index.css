@@ -1,0 +1,18 @@
+body, html {
+	margin: 0;
+	padding: 0;
+}
+
+html {
+	white-space: nowrap;
+	font-size: smaller;
+	font-family: arial, sans-serif;
+	height: 100%;
+}
+
+body {
+	min-height: 100%;
+}
+
+
+
