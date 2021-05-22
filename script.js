@@ -1,10 +1,46 @@
 let previousElement = null;
-const shadePixel = function(pixel) {
-	if (pixel.id === 'canvas' || pixel === previousElement) {
-		return
-	}
+const stylePixel = function(pixel, fillStyle) {
+	if (pixel === previousElement) { return }
 	previousElement = pixel
-	pixel.style.backgroundColor = 'black'
+	switch (fillStyle) {
+		case 'black':
+			fillPixel(pixel, '#000')
+			break
+		case 'shade':
+			shadePixel(pixel)
+			break
+		case 'rainbow':
+			rainbowPixel(pixel)
+			break
+		case 'random':
+			randomizePixel(pixel)
+			break
+	}
+}
+const fillPixel = function(pixel, color) {
+	pixel.style.backgroundColor = color
+	pixel.style.opacity = 1
+}
+
+const shadePixel = function(pixel) {
+	pixel.style.backgroundColor = '#000'
+	const opacity = Number(pixel.style.opacity)
+	if (opacity === '') {
+		pixel.style.opacity = 0.1
+	} else {
+		pixel.style.opacity = opacity + 0.1
+	}
+}
+
+let rainbow = 0
+const rainbowPixel = function(pixel) {
+	pixel.style.backgroundColor = `hsl(${rainbow}, 100%, 50%)`
+	rainbow += 3
+	if (rainbow >= 360) { rainbow = 0 }
+}
+
+const randomizePixel = function(pixel) {
+	pixel.style.backgroundColor = `hsl(${Math.round(Math.random() * 360)}, 100%, 50%)`
 }
 
 const generateGrid = function(size, canvas) {
@@ -27,7 +63,11 @@ const getUserCanvasSize = function() {
 
 window.addEventListener('DOMContentLoaded', () => {
 	const canvas = document.getElementById('canvas')
-	canvas.addEventListener('pointermove', (ev) => shadePixel(ev.target))
+	const fillStyle = document.getElementById('fillStyle')
+	canvas.addEventListener('pointermove', (ev) => {
+		if (ev.target.id === 'canvas') { return }
+		stylePixel(ev.target, fillStyle.value)
+	})
 	generateGrid(16, canvas)
 
 	document.getElementById('newCanvas').addEventListener('click', () => {
